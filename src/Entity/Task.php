@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\StatusEnum;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,11 +14,14 @@ class Task
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $Title = null;
 
     #[ORM\Column]
     private ?bool $IsPinned = null;
+
+    #[ORM\Column(enumType: StatusEnum::class)]
+    private ?StatusEnum $StatusEnum = null;
 
     public function getId(): ?int
     {
@@ -44,6 +48,18 @@ class Task
     public function setIsPinned(bool $IsPinned): static
     {
         $this->IsPinned = $IsPinned;
+
+        return $this;
+    }
+
+    public function getStatusEnum(): ?StatusEnum
+    {
+        return $this->StatusEnum;
+    }
+
+    public function setStatusEnum(StatusEnum $StatusEnum): static
+    {
+        $this->StatusEnum = $StatusEnum;
 
         return $this;
     }
